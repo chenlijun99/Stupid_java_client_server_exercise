@@ -1,95 +1,59 @@
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.net.Socket;
+
 /**
-
  * Chat Server - 
-
  *
-
  * ClientListener class is purposed to listen for client messages and
-
  * to forward them to ServerDispatcher.
-
  */
-
  
-
-import java.io.*;
-
-import java.net.*;
-
  
-
 public class ClientListener extends Thread
-
 {
-
-    private ServerDispatcher mServerDispatcher;
-
-    private ClientInfo mClientInfo;
-
-    private BufferedReader mIn;
-
+    private ServerDispatcher m_serverDispatcher;
+    private ClientInfo m_clientInfo;
+	private ObjectInputStream m_input;
  
-
-    public ClientListener(ClientInfo aClientInfo, ServerDispatcher aServerDispatcher)
-
-    throws IOException
-
+	public ClientListener(ClientInfo clientInfo, ServerDispatcher serverDispatcher)
+			throws IOException
     {
 
-        mClientInfo = aClientInfo;
+        m_clientInfo = clientInfo;
+        m_serverDispatcher = serverDispatcher;
+        Socket socket = clientInfo.getSocket();
 
-        mServerDispatcher = aServerDispatcher;
-
-        Socket socket = aClientInfo.mSocket;
-
-        mIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        m_input = new ObjectInputStream(socket.getInputStream());
+                		System.out.println("Finally a connection");
 
     }
-
  
-
     /**
-
      * Until interrupted, reads messages from the client socket, forwards them
-
      * to the server dispatcher's queue and notifies the server dispatcher.
-
      */
-
     public void run()
-
     {
-
+			System.out.println("UCK");
         try {
-
            while (!isInterrupted()) {
-
-               String message = mIn.readLine();
-
+               Message message = (Message) m_input.readObject();
+			   message.setSenderInfo(m_clientInfo);
                if (message == null)
-
                    break;
-
-               mServerDispatcher.dispatchMessage(mClientInfo, message);
-
+               m_serverDispatcher.dispatchMessage(message);
            }
-
-        } catch (IOException ioex) {
-
-           // Problem reading from socket (communication is broken)
-
-        }
-
+        } catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
  
-
         // Communication is broken. Interrupt both listener and sender threads
-
-        mClientInfo.mClientSender.interrupt();
-
-        mServerDispatcher.deleteClient(mClientInfo);
-
+        m_clientInfo.getSender().interrupt();
+        m_serverDispatcher.deleteClient(m_clientInfo);
     }
-
  
-
 }

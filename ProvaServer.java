@@ -1,10 +1,6 @@
 public class ProvaServer {
 
 	public static void main(String[] args) {
-		String username = System.getProperty("user.name");
-		System.out.println("username = " + username);
-		String serverName="Server"+username;
-
 		//se uso parametri:
 		//if (args.length < 1) {
 			//System.out.println("Sintassi:");
@@ -15,6 +11,7 @@ public class ProvaServer {
 		//}
 		//Server s = new Server(args[0]);
 		//
-		Server s = new Server(serverName);
+		
+		Server s = new Server(18080);
 	}
 }

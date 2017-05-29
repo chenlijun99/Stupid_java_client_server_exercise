@@ -1,50 +1,57 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 /**
   Multithreaded Chat Server Implementation – Server
   */
-import java.net.*;
-import java.io.*;
 
 public class Server {
 
-	private Socket connessione;
-	private BufferedReader dalClient;
-	private PrintStream alClient;
-	private String name;
-	private int acceptedPorts = 5;
-	private int LISTENING_PORT = 4000;
+	private Socket m_connection;
+	private int m_acceptedConnections = 5;
+	private int m_listeningPort = 4000;
 
-	public Server(String name) 
+	public Server(int listeningPort) 
 	{
-		this.name = name;
+		m_listeningPort = listeningPort;
 
-		try (ServerSocket server = new ServerSocket(LISTENING_PORT, acceptedPorts)) {
-			System.out.println("Server attivo on port " + LISTENING_PORT);
+		try (ServerSocket server = new ServerSocket(m_listeningPort, m_acceptedConnections)) {
+			System.out.println("Server running on port " + m_listeningPort);
 
 			ServerDispatcher serverDispatcher = new ServerDispatcher();
 			serverDispatcher.start();
 
 			while (true) {
 				try {
-					//        Socket socket = server.accept();
-					connessione = server.accept();
+
+					System.out.println("Waiting for connection requests");
+					m_connection = server.accept();
+					System.out.println("Finally a connection");
+
 					ClientInfo clientInfo = new ClientInfo();
-					//               clientInfo.mSocket = socket;
-					clientInfo.mSocket = connessione;
-					ClientListener clientListener =
-						new ClientListener(clientInfo, serverDispatcher);
-					ClientSender clientSender =
-						new ClientSender(clientInfo, serverDispatcher);
-					clientInfo.mClientListener = clientListener;
-					clientInfo.mClientSender = clientSender;
+					clientInfo.setSocket(m_connection);
+
+					ClientSender clientSender = new ClientSender(clientInfo, serverDispatcher);
+					ClientListener clientListener = new ClientListener(clientInfo, serverDispatcher);
+
+					clientInfo.setListener(clientListener);
+					clientInfo.setSender(clientSender);
+
 					clientListener.start();
 					clientSender.start();
+
 					serverDispatcher.addClient(clientInfo);
-				} catch (IOException ioe) {
-					ioe.printStackTrace();
+
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 		} catch (IOException e) {
-
+			e.printStackTrace();
+			System.exit(-1);
 		}
 
 	}
