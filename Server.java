@@ -27,9 +27,7 @@ public class Server {
 			while (true) {
 				try {
 
-					System.out.println("Waiting for connection requests");
 					m_connection = server.accept();
-					System.out.println("Finally a connection");
 
 					ClientInfo clientInfo = new ClientInfo();
 					clientInfo.setSocket(m_connection);

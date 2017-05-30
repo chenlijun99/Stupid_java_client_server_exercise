@@ -26,8 +26,6 @@ public class ClientListener extends Thread
         Socket socket = clientInfo.getSocket();
 
         m_input = new ObjectInputStream(socket.getInputStream());
-                		System.out.println("Finally a connection");
-
     }
  
     /**
@@ -36,7 +34,6 @@ public class ClientListener extends Thread
      */
     public void run()
     {
-			System.out.println("UCK");
         try {
            while (!isInterrupted()) {
                Message message = (Message) m_input.readObject();

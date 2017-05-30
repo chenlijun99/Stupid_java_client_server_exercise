@@ -3,10 +3,22 @@ import java.util.Date;
 
 public class Message implements Serializable {
 
-	private String m_senderUsername;
-	private String m_senderAddress;
-	private Date m_date;
-	private String m_payload;
+	private String m_senderUsername = null;
+	private String m_senderAddress = null;
+	private Date m_date = null;
+	private String m_payload = null;
+
+	Message() {
+
+	}
+
+	Message(String senderUsername, String senderAddress, Date date, String payload)
+	{
+		m_senderUsername = senderUsername;
+		m_senderAddress = senderAddress;
+		m_date = date;
+		m_payload = payload;
+	}
 
 	Message(ClientInfo sender, String payload)
 	{
@@ -19,6 +31,7 @@ public class Message implements Serializable {
 	Message(String payload)
 	{
 		m_payload = payload;
+		m_date = new Date();
 	}
 
 	public void setSenderInfo(ClientInfo sender) {
@@ -40,6 +53,22 @@ public class Message implements Serializable {
 
 	public String getPayload() {
 		return m_payload;
+	}
+
+	public void setSenderUsername(String senderUsername) {
+		m_senderUsername = senderUsername;
+	}
+
+	public void setSenderAddress(String senderAddress) {
+		m_senderAddress = senderAddress;
+	}
+
+	public void setDate(Date date) {
+		m_date = date;
+	}
+
+	public void setPayload(String payload) {
+		m_payload = payload;
 	}
 }
 

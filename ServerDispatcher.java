@@ -6,8 +6,9 @@
  * chat server.
  */
 
-import java.net.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.Vector;
+
 
 public class ServerDispatcher extends Thread
 {
@@ -70,10 +71,14 @@ public class ServerDispatcher extends Thread
 		try {
 			while (true) {
 				Message message = getNextMessageFromQueue();
+				MessageHistory history = new MessageHistory("history.txt");
+				history.addMessage(message);
 				sendMessageToAllClients(message);
 			}
-		} catch (InterruptedException ie) {
-			// Thread interrupted. Stop its execution
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

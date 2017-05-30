@@ -35,9 +35,12 @@ public class Client {
 		try {
 			Message message;
 			while ((message = (Message)m_fromServer.readObject()) != null) {
-				System.out.println(message.getSenderUsername() + " " +
-						message.getSenderAddress() + " " +
-						message.getDate() + " " +
+				System.out.printf("\n%30s%s %s %tB %<te, %<tY %<tR %<Tp\n%30s%s\n\n> ",
+						"",
+						message.getSenderUsername(),
+						message.getSenderAddress(),
+						message.getDate(),
+						"",
 						message.getPayload());
 			}
 		} catch (IOException ioe) {
@@ -62,6 +65,7 @@ class Sender extends Thread
 		try {
 			BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
 			while (!isInterrupted()) {
+				System.out.printf("> ");
 				String s = console.readLine();
 				Message message = new Message(s);
 				m_toServer.writeObject(message);
