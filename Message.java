@@ -70,5 +70,15 @@ public class Message implements Serializable {
 	public void setPayload(String payload) {
 		m_payload = payload;
 	}
+
+	public String toString() 
+	{
+		return String.format("%s\\;%s\\;%tY-%<tm-%<te, %<tH:%<tM:%<tS\\;%s",
+					this.getSenderUsername(),
+					this.getSenderAddress(),
+					this.getDate(),
+					this.getPayload());
+
+	}
 }
 

@@ -3,7 +3,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,24 +12,20 @@ import java.util.Vector;
 public class MessageHistory {
 	private String nomeFile_;
 
-	MessageHistory(String nomeFile)
+	public MessageHistory(String nomeFile)
 	{
 		nomeFile_ = nomeFile;
 	}
 
-	void addMessage(Message message) throws IOException
+	public void addMessage(Message message) throws IOException
 	{
 		boolean append = true;
 		try (PrintWriter fileOut = new PrintWriter(new FileWriter(nomeFile_, append))) {
-			fileOut.printf("%s\\;%s\\;%tB %<te, %<tY %<tR %<Tp\\;%s\n",
-					message.getSenderUsername(),
-					message.getSenderAddress(),
-					message.getDate(),
-					message.getPayload());
+			fileOut.println(message);
 		}
 	}
 
-	Vector<Message> getHistory() throws IOException
+	public Vector<Message> getHistory() throws IOException
 	{
 		Vector<Message> messages = new Vector<Message>();
 		try (BufferedReader fileIn = new BufferedReader(new FileReader(nomeFile_))) {
@@ -41,7 +36,7 @@ public class MessageHistory {
 				message.setSenderUsername(tokenizer.nextToken());
 				message.setSenderAddress(tokenizer.nextToken());
 				String dateString = tokenizer.nextToken();
-				Date date = new SimpleDateFormat("MMMM dd, YYYY h:mm a").parse(dateString);
+				Date date = new SimpleDateFormat("YYYY-MM-dd, hh:mm:ss").parse(dateString);
 				message.setDate(date);
 				message.setPayload(tokenizer.nextToken());
 
@@ -53,4 +48,8 @@ public class MessageHistory {
 
 		return messages;
 	}
+
+	
+
+	
 }

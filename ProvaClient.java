@@ -1,20 +1,13 @@
-public class ProvaClient {
-
+public class ProvaClient 
+{
 	public static void main(String[] args) 
 	{
-		//se uso parametri:
-		//if (args.length < 1)
-		//{
-			//System.out.println("Sintassi:");
-			//System.out.println(" java ProvaClient nomequalsiasi");
-			//return;
-		//}else System.out.println("nomequalsiasi= "+args[0]);
-		//Client c = new Client(args[0]);
-		
-		Client c = new Client("127.0.0.1", 18080);
-
-		//		c.conversazione();
+		Client c = null;
+		if (args.length == 2) {
+			c = new Client(args[0], Integer.parseInt(args[1]));
+		} else {
+			c = new Client("127.0.0.1", 8080);
+		}
 		c.conversazione();
 	}
-
 }

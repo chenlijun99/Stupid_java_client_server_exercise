@@ -14,7 +14,7 @@ public class Server {
 	private int m_acceptedConnections = 5;
 	private int m_listeningPort = 4000;
 
-	public Server(int listeningPort) 
+	public Server(int listeningPort)
 	{
 		m_listeningPort = listeningPort;
 

@@ -12,8 +12,6 @@ import java.util.Vector;
  * messages from the queue to the client socket.
  */
 
-
-
 public class ClientSender extends Thread
 {
 	private Vector<Message> m_messageQueue = new Vector<Message>();

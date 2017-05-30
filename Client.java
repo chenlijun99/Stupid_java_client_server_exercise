@@ -35,7 +35,7 @@ public class Client {
 		try {
 			Message message;
 			while ((message = (Message)m_fromServer.readObject()) != null) {
-				System.out.printf("\n%30s%s %s %tB %<te, %<tY %<tR %<Tp\n%30s%s\n\n> ",
+				System.out.printf("\b\b%30s%s %s %tY-%<tm-%<te, %<tH:%<tM:%<tS\n%30s%s\n\n> ",
 						"",
 						message.getSenderUsername(),
 						message.getSenderAddress(),
