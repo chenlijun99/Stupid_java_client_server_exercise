@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Message implements Serializable {
@@ -73,12 +74,11 @@ public class Message implements Serializable {
 
 	public String toString() 
 	{
-		return String.format("%s\\;%s\\;%tY-%<tm-%<te, %<tH:%<tM:%<tS\\;%s",
+		return String.format("%s\\;%s\\;%s\\;%s",
 					this.getSenderUsername(),
 					this.getSenderAddress(),
-					this.getDate(),
+					new SimpleDateFormat("yyyy-MM-dd, hh:mm:ss").format(this.getDate()),
 					this.getPayload());
 
 	}
 }
-

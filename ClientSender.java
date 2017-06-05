@@ -71,9 +71,12 @@ public class ClientSender extends Thread
 	public void run()
 	{
 		try {
-			for (Message m : new MessageHistory("history.txt").getHistory()) {
+			// first send all the history
+			for (Message m : new MessageHistory("history.txt").getHistory(4)) {
 				sendMessageToClient(m);
 			}
+
+			// wait for new messages
 			while (!isInterrupted()) {
 				Message message = getNextMessageFromQueue();
 				sendMessageToClient(message);

@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.text.SimpleDateFormat;
 
 public class Client {
 
@@ -17,7 +18,7 @@ public class Client {
 		} else {
 			c = new Client("127.0.0.1", 8080);
 		}
-		c.conversazione();
+		c.talk();
 	}
 
 	public Client(String address, int serverPort) {
@@ -39,18 +40,18 @@ public class Client {
 		}
 	}
 
-	public void conversazione() {
+	public void talk() {
 		Sender sender = new Sender(m_toServer);
 		sender.setDaemon(true);
 		sender.start();
 		try {
 			Message message;
 			while ((message = (Message)m_fromServer.readObject()) != null) {
-				System.out.printf("\b\b%30s%s %s %tY-%<tm-%<te, %<tH:%<tM:%<tS\n%30s%s\n\n> ",
+				System.out.printf("\b\b%30s%s %s %s\n%30s%s\n\n> ",
 						"",
 						message.getSenderUsername(),
 						message.getSenderAddress(),
-						message.getDate(),
+						new SimpleDateFormat("yyyy-MM-dd, hh:mm:ss").format(message.getDate()),
 						"",
 						message.getPayload());
 			}
