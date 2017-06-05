@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,17 +11,17 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 public class MessageHistory {
-	private String nomeFile_;
+	private String fileName_;
 
-	public MessageHistory(String nomeFile)
+	public MessageHistory(String fileName)
 	{
-		nomeFile_ = nomeFile;
+		fileName_ = fileName;
 	}
 
 	public void addMessage(Message message) throws IOException
 	{
 		boolean append = true;
-		try (PrintWriter fileOut = new PrintWriter(new FileWriter(nomeFile_, append))) {
+		try (PrintWriter fileOut = new PrintWriter(new FileWriter(fileName_, append))) {
 			fileOut.println(message);
 		}
 	}
@@ -28,7 +29,10 @@ public class MessageHistory {
 	public Vector<Message> getHistory() throws IOException
 	{
 		Vector<Message> messages = new Vector<Message>();
-		try (BufferedReader fileIn = new BufferedReader(new FileReader(nomeFile_))) {
+		File file = new File(fileName_);
+		file.createNewFile();
+
+		try (BufferedReader fileIn = new BufferedReader(new FileReader(fileName_))) {
 			StringTokenizer tokenizer;
 			for (String m; (m = fileIn.readLine()) != null;) {
 				tokenizer = new StringTokenizer(m, "\\;");
@@ -48,8 +52,4 @@ public class MessageHistory {
 
 		return messages;
 	}
-
-	
-
-	
 }

@@ -14,6 +14,14 @@ public class Server {
 	private int m_acceptedConnections = 5;
 	private int m_listeningPort = 4000;
 
+	public static void main(String[] args) {
+		if (args.length == 1) {
+			Server s = new Server(Integer.parseInt(args[0]));
+		} else {
+			Server s = new Server(8080);
+		}
+	}
+
 	public Server(int listeningPort)
 	{
 		m_listeningPort = listeningPort;
