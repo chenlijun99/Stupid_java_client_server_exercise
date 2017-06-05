@@ -2,4 +2,58 @@
 
 == Introduzione
 
-Il presente programma che denomineremo "**__Chatline__**"
+"`__Chatline multiclient__`" è stato pensato come progetto supplementare
+all'area di progetto della classe 4E dell'istituto _IISS Galileo Galilei_.
+
+L'area di progetto riguardava principalmente la materia _Sistemi e reti_.
+Si tratta infatti di costruire una LAN (_**L**ocal **A**read **N**etwork_)
+usando dispositivi di rete (switch e router), questi ultimi forniti dalla scuola.
+
+Ora, avendo una LAN, si è anche pensato di testare con qualcosa
+di concreto e, perché no, divertente.
+Così è nato, grazie alla proposta del professor Antimo Marzochella, il presente
+progetto, che ha come fine ultimo, quello di integrare la materia _Informatica_
+nella sopracitata area di progetto.
+
+== In cosa consiste il progetto
+
+Questo progetto consiste nel completamento di un applicazione _client-server_,
+
+.Applicazione _client-server_
+****
+Un tipo di applicazione in cui ci sono almeno due programmi in esecuzione:
+
+* il server: programma che resta in attesa delle richieste di servizio da parte di un client
+* il client: programma che inizializza una connessione, attraverso la quale
+si collega al server e può richiedere a questo servizi di cui ha bisogno.
+
+La comunicazione tra questi due avviene tramite la rete.
+
+image::./Client-server_model.svg[title="client-server"]
+****
+
+di cui una prima bozza è già fornita dal docente,
+che permetta la comunicazione immediata di uno o più utenti attraverso la rete.
+
+In particolare ai singoli alunni è stato richiesto di sviluppare la funzionalità che
+permetta di salvare le conversazioni in un file di testo, che poi dovrà poter essere
+letto per presentare ad ogni utente che si collega al server una storia dei messaggi
+precedenti.
+
+<<<
+
+=== Struttura del applicazione
+
+[plantuml, diagram-classes, png]     
+....
+class Server
+class ServerDispatcher
+class ClientSender
+class ClientListener
+class ClientInfo
+
+class Client
+class Server
+class Message
+class MessageHistory
+....
