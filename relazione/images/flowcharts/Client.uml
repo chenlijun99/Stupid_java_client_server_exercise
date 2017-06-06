@@ -1,0 +1,16 @@
+@startuml
+start
+
+partition inizializzazione {
+	:ottiene connessione col server;
+	:crea un thread Sender;
+}
+
+while (programma in esecuzione)
+	:attesa di messaggi dal Server
+	in particolare da ClientSender;
+	:stampa messaggio ricevuto sullo schermo;
+endwhile
+
+end
+@enduml

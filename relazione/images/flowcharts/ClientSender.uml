@@ -1,0 +1,11 @@
+@startuml
+start
+:manda al client appena connesso la storia dei 
+messaggi passati letti da un file di testo;
+while (thread in esecuzione)
+	:attesa di messaggi da ServerDispatcher;
+	:manda il messaggio al client;
+endwhile
+
+end
+@enduml

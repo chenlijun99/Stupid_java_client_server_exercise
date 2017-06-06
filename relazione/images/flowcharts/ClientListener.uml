@@ -1,0 +1,11 @@
+@startuml
+start
+
+while (thread in esecuzione)
+	:attesa di un messaggio 
+	dallo stream collegato al Client;
+	:manda il messaggio a ServerDispatcher;
+endwhile
+
+end
+@enduml

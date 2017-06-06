@@ -1,0 +1,10 @@
+@startuml
+start
+while (thread in esecuzione)
+	:attesa di messaggi dallo stdin;
+	:manda il messaggio al server,
+	in particolare a ClientListener;
+endwhile
+
+end
+@enduml

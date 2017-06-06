@@ -1,0 +1,20 @@
+@startuml
+start
+while (thread in esecuzione)
+	:attesa che un messaggio 
+	arrivi nella coda dei messaggi;
+	note right
+		ClientListener chiama 
+		il metodo dispatchMessage
+		che difatto mando il messaggio
+		nella coda dei messaggi
+	end note
+	:salva il primo messaggio nella coda dei
+	messagi in un file di testo;
+	:manda il primo messaggio nella coda dei
+	messaggi a tutti i ClientSender;
+	:cancella il messaggio dalla coda;
+endwhile
+
+end
+@enduml
