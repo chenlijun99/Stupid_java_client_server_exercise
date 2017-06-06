@@ -4,7 +4,7 @@ Chen Lijun 4E <chenlijun5858@gmai.com>
 :toc: left
 :numbered:
 :icons: font
-:source-highlighter: pygments
+:source-highlighter: highlightjs
 
 == Introduzione
 
