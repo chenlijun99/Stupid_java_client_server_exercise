@@ -1,0 +1,17 @@
+@startuml
+class Client {
+	- m_connection : Socket 
+	- m_fromServer : ObjectInputStream 
+	- m_toServer : ObjectOutputStream 
+	- m_address : String 
+	- m_serverPort : int 
+	+ talk() : void 
+	+ Client(String address, int serverPort)
+}
+class Sender extends Thread {
+	- m_toServer : ObjectOutputStream 
+	+ run() : void 
+	+ Sender(ObjectOutputStream out)
+}
+
+@enduml

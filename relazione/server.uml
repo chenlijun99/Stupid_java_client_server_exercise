@@ -1,0 +1,91 @@
+@startuml
+ServerDispatcher *-- Message
+ServerDispatcher *-- ClientInfo
+ClientSender *-- Message
+ClientSender *-- ServerDispatcher
+ClientSender *-- ClientInfo
+ClientListener *-- ServerDispatcher
+ClientListener *-- ClientInfo
+ClientInfo *-- ClientSender
+ClientInfo *-- ClientListener
+
+
+
+class Server {
+	- m_connection : Socket 
+	- m_acceptedConnections  : int 
+	- m_listeningPort  : int 
+	+ Server(int listeningPort)
+}
+class ServerDispatcher extends Thread {
+	- m_messageQueue : Vector<Message> 
+	- m_clients : Vector<ClientInfo>
+	- getNextMessageFromQueue() : Message 
+	- sendMessageToAllClients(Message message) : void 
+	+ run() : void 
+	+ addClient(ClientInfo clientInfo) : void 
+	+ deleteClient(ClientInfo clientInfo) : void 
+	+ dispatchMessage(Message message) : void 
+}
+class ClientSender extends Thread {
+	- m_messageQueue : Vector<Message> 
+	- m_serverDispatcher : ServerDispatcher 
+	- m_clientInfo : ClientInfo 
+	- m_output : ObjectOutputStream 
+	- getNextMessageFromQueue()  : Message 
+	- sendMessageToClient(Message message)  : void 
+	+ sendMessage(Message message) : void 
+	+ ClientSender(ClientInfo clientInfo, ServerDispatcher serverDispatcher)
+}
+class ClientListener extends Thread {
+	- m_serverDispatcher : ServerDispatcher 
+	- m_clientInfo : ClientInfo 
+	- m_input : ObjectInputStream 
+	+ run() : void 
+	+ ClientListener(ClientInfo clientInfo, ServerDispatcher serverDispatcher)
+}
+class ClientInfo {
+	- m_socket  : Socket 
+	- m_listener  : ClientListener 
+	- m_sender  : ClientSender 
+	- m_username  : String 
+	- m_address  : String 
+	+ setSender(ClientSender sender)  : void 
+	+ setListener(ClientListener listener)  : void 
+	+ setSocket(Socket socket)  : void 
+	+ setUsername(String username)  : void 
+	+ setAddress(String address)  : void 
+	+ getSender()  : ClientSender 
+	+ getListener()  : ClientListener 
+	+ getSocket()  : Socket 
+	+ getUsername()  : String 
+	+ getAddress()  : String 
+}
+class Message implements Serializable {
+	- m_senderUsername  : String 
+	- m_senderAddress  : String 
+	- m_date  : Date 
+	- m_payload  : String 
+	+ setSenderInfo(ClientInfo sender)  : void 
+	+ getSenderUsername()  : String 
+	+ getSenderAddress()  : String 
+	+ getDate()  : Date 
+	+ getPayload()  : String 
+	+ setSenderUsername(String senderUsername)  : void 
+	+ setSenderAddress(String senderAddress)  : void 
+	+ setDate(Date date)  : void 
+	+ setPayload(String payload)  : void 
+	+ toString()  : String 
+	+ Message() 
+	+ Message(String senderUsername, String senderAddress, Date date, String payload)
+	+ Message(ClientInfo sender, String payload)
+	+ Message(String payload)
+}
+class MessageHistory {
+	- fileName_ : String 
+	+ addMessage(Message message)  : void 
+	+ getHistory() : Vector<Message> 
+	+ getHistory(int dayFilter) : Vector<Message> 
+	+ MessageHistory(String fileName)
+}
+@enduml
